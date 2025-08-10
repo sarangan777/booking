@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VanGo Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-van-shuttle"></i>
+                    <span>VanGo</span>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.php" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="vans.html" class="nav-link">Our Vans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="book-van.php" class="nav-link">Book Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="auth.html" class="nav-link">Login</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-van"></i>
+                    <h2>VanGo Admin</h2>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#bookings" class="nav-item" data-tab="bookings">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="#vans" class="nav-item" data-tab="vans">
+                    <i class="fas fa-van"></i>
+                    <span>Van Management</span>
+                </a>
+                <a href="#customers" class="nav-item" data-tab="customers">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="#reports" class="nav-item" data-tab="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#settings" class="nav-item" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="vans.html" class="nav-link">Our Vans</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="auth.html" class="nav-link">Login</a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="admin.php?logout=1" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Top Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="admin-profile">
+                        <img src="https://via.placeholder.com/40" alt="Admin" class="admin-avatar">
+                        <span class="admin-name">Admin User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-bookings">0</h3>
+                            <p>Total Bookings</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-van"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-vans">0</h3>
+                            <p>Total Vans</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-customers">0</h3>
+                            <p>Total Customers</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-revenue">$0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-card">
+                        <h3>Recent Bookings</h3>
+                        <div class="recent-bookings" id="recent-bookings">
+                            <!-- Recent bookings will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Van Availability</h3>
+                        <div class="van-availability" id="van-availability">
+                            <!-- Van availability will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookings Tab -->
+            <div class="tab-content" id="bookings">
+                <div class="content-header">
+                    <h2>Booking Management</h2>
+                    <div class="header-actions">
+                        <input type="text" placeholder="Search bookings..." class="search-input" id="booking-search">
+                        <select class="filter-select" id="booking-status-filter">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="admin-table" id="bookings-table">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Customer</th>
+                                <th>Van Type</th>
+                                <th>Pickup Date</th>
+                                <th>Return Date</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-tbody">
+                            <!-- Bookings will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Van Management Tab -->
+            <div class="tab-content" id="vans">
+                <div class="content-header">
+                    <h2>Van Management</h2>
+                    <button class="add-btn" onclick="openAddVanModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Van
+                    </button>
+                </div>
+                
+                <div class="vans-grid" id="vans-grid">
+                    <!-- Van cards will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div class="tab-content" id="customers">
+                <div class="content-header">
+                    <h2>Customer Management</h2>
+                    <input type="text" placeholder="Search customers..." class="search-input" id="customer-search">
+                </div>
+                
+                <div class="table-container">
+                    <table class="admin-table" id="customers-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Total Bookings</th>
+                                <th>Total Spent</th>
+                                <th>Last Booking</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-tbody">
+                            <!-- Customers will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div class="tab-content" id="reports">
+                <div class="content-header">
+                    <h2>Reports & Analytics</h2>
+                    <div class="report-filters">
+                        <select class="filter-select" id="report-period">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="365">Last Year</option>
+                        </select>
+                        <button class="export-btn">
+                            <i class="fas fa-download"></i>
+                            Export Report
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Revenue Overview</h3>
+                        <div class="report-chart" id="revenue-chart">
+                            <!-- Revenue chart will be here -->
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <h3>Popular Van Types</h3>
+                        <div class="report-chart" id="van-popularity-chart">
+                            <!-- Van popularity chart will be here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <div class="content-header">
+                    <h2>System Settings</h2>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>General Settings</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" value="VanGo" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Email</label>
+                                <input type="email" value="info@vango.com" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" value="+1 (555) 123-4567" class="form-input">
+                            </div>
+                            <button type="submit" class="save-btn">Save Changes</button>
+                        </form>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Booking Settings</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Minimum Booking Notice (hours)</label>
+                                <input type="number" value="24" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Cancellation Policy (hours)</label>
+                                <input type="number" value="24" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Deposit Amount ($)</label>
+                                <input type="number" value="200" class="form-input">
+                            </div>
+                            <button type="submit" class="save-btn">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Van Modal -->
+    <div class="modal" id="addVanModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Van</h3>
+                <button class="close-button" onclick="closeAddVanModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="van-form" id="addVanForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vanName">Van Name *</label>
+                            <input type="text" id="vanName" name="vanName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vanType">Van Type *</label>
+                            <select id="vanType" name="vanType" required>
+                                <option value="">Select Type</option>
+                                <option value="passenger">Passenger Van</option>
+                                <option value="cargo">Cargo Van</option>
+                                <option value="luxury">Luxury Van</option>
+                                <option value="minibus">Minibus</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vanCapacity">Capacity (seats/cargo space)</label>
+                            <input type="text" id="vanCapacity" name="vanCapacity" placeholder="e.g., 8 seats or 2000 lbs">
+                        </div>
+                        <div class="form-group">
+                            <label for="vanDailyRate">Daily Rate ($) *</label>
+                            <input type="number" id="vanDailyRate" name="vanDailyRate" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vanDescription">Description</label>
+                        <textarea id="vanDescription" name="vanDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vanFeatures">Features (comma separated)</label>
+                        <input type="text" id="vanFeatures" name="vanFeatures" placeholder="e.g., Air Conditioning, WiFi, GPS">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vanStatus">Status</label>
+                        <select id="vanStatus" name="vanStatus">
+                            <option value="active">Active</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeAddVanModal()">Cancel</button>
+                <button class="save-btn" onclick="saveVan()">Save Van</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Van Modal -->
+    <div class="modal" id="editVanModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Van</h3>
+                <button class="close-button" onclick="closeEditVanModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="van-form" id="editVanForm">
+                    <input type="hidden" id="editVanId" name="vanId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editVanName">Van Name *</label>
+                            <input type="text" id="editVanName" name="vanName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editVanType">Van Type *</label>
+                            <select id="editVanType" name="vanType" required>
+                                <option value="passenger">Passenger Van</option>
+                                <option value="cargo">Cargo Van</option>
+                                <option value="luxury">Luxury Van</option>
+                                <option value="minibus">Minibus</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editVanCapacity">Capacity</label>
+                            <input type="text" id="editVanCapacity" name="vanCapacity">
+                        </div>
+                        <div class="form-group">
+                            <label for="editVanDailyRate">Daily Rate ($) *</label>
+                            <input type="number" id="editVanDailyRate" name="vanDailyRate" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editVanDescription">Description</label>
+                        <textarea id="editVanDescription" name="vanDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editVanFeatures">Features</label>
+                        <input type="text" id="editVanFeatures" name="vanFeatures">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editVanStatus">Status</label>
+                        <select id="editVanStatus" name="vanStatus">
+                            <option value="active">Active</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeEditVanModal()">Cancel</button>
+                <button class="save-btn" onclick="updateVan()">Update Van</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Delete</h3>
+                <button class="close-button" onclick="closeDeleteModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+                <button class="delete-btn" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-dashboard.js"></script>
+</body>
+</html> 

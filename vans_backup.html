@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Vans - VanGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .vans-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vans-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .vans-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .vans-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .vans-hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .van-categories {
+            padding: 80px 0;
+            background: white;
+            margin-top: -50px;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .category-card {
+            text-align: center;
+            padding: 40px 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.2);
+        }
+        
+        .category-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .category-card.active .category-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .category-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .category-card p {
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+        
+        .vans-section {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+        
+        .vans-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .vans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .van-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .van-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+        
+        .van-image {
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .van-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .van-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .van-content {
+            padding: 30px;
+        }
+        
+        .van-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .van-title h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .van-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .van-price {
+            text-align: right;
+        }
+        
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .price-period {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .van-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.7rem;
+            color: white;
+        }
+        
+        .van-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .van-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn-book {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-details {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-details:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .features-section {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .vans-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .vans-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .van-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .van-actions {
+                flex-direction: column;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-van-shuttle"></i>
+                    <span>VanGo</span>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.php" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="vans.html" class="nav-link active">Our Vans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="book-van.php" class="nav-link">Book Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="auth.html" class="nav-link">Login</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="vans-hero">
+            <div class="vans-hero-content">
+                <h1>Our Premium Van Fleet</h1>
+                <p>Discover our diverse collection of high-quality vans designed for comfort, style, and reliability.</p>
+            </div>
+        </section>
+
+        <!-- Van Categories -->
+        <section class="van-categories">
+            <div class="categories-grid">
+                <div class="category-card active" data-category="all">
+                    <div class="category-icon">
+                        <i class="fas fa-van-shuttle"></i>
+                    </div>
+                    <h3>All Vans</h3>
+                    <p>Browse our complete collection</p>
+                </div>
+                <div class="category-card" data-category="passenger">
+                    <div class="category-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Passenger Vans</h3>
+                    <p>Comfortable group transportation</p>
+                </div>
+                <div class="category-card" data-category="luxury">
+                    <div class="category-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Luxury Vans</h3>
+                    <p>Premium travel experience</p>
+                </div>
+                <div class="category-card" data-category="cargo">
+                    <div class="category-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <h3>Cargo Vans</h3>
+                    <p>Reliable cargo transportation</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vans Section -->
+        <section class="vans-section">
+            <div class="vans-container">
+                <div class="section-header">
+                    <h2>Available Vans</h2>
+                    <p>Choose from our carefully selected fleet of premium vans, each maintained to the highest standards for your safety and comfort.</p>
+                </div>
+                
+                <div class="vans-grid">
+                    <!-- Van 1 -->
+                    <div class="van-card" data-category="passenger">
+                        <div class="van-image">
+                            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Passenger Van">
+                            <div class="van-badge">Popular</div>
+                        </div>
+                        <div class="van-content">
+                            <div class="van-header">
+                                <div class="van-title">
+                                    <h3>Mercedes Sprinter</h3>
+                                    <div class="van-subtitle">Passenger Van</div>
+                                </div>
+                                <div class="van-price">
+                                    <div class="price-amount">$150</div>
+                                    <div class="price-period">per day</div>
+                                </div>
+                            </div>
+                            <div class="van-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <span>12 Passengers</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-snowflake"></i>
+                                    </div>
+                                    <span>AC/Heating</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-wifi"></i>
+                                    </div>
+                                    <span>Free WiFi</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-plug"></i>
+                                    </div>
+                                    <span>USB Charging</span>
+                                </div>
+                            </div>
+                            <div class="van-description">
+                                Spacious and comfortable passenger van perfect for group travel, airport transfers, and corporate events.
+                            </div>
+                            <div class="van-actions">
+                                <a href="book-van.php" class="btn-book">Book Now</a>
+                                <a href="#" class="btn-details">Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Van 2 -->
+                    <div class="van-card" data-category="luxury">
+                        <div class="van-image">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Van">
+                            <div class="van-badge">Premium</div>
+                        </div>
+                        <div class="van-content">
+                            <div class="van-header">
+                                <div class="van-title">
+                                    <h3>Cadillac Escalade</h3>
+                                    <div class="van-subtitle">Luxury SUV</div>
+                                </div>
+                                <div class="van-price">
+                                    <div class="price-amount">$300</div>
+                                    <div class="price-period">per day</div>
+                                </div>
+                            </div>
+                            <div class="van-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <span>7 Passengers</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-couch"></i>
+                                    </div>
+                                    <span>Leather Seats</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-tv"></i>
+                                    </div>
+                                    <span>Entertainment</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-glass-whiskey"></i>
+                                    </div>
+                                    <span>Mini Bar</span>
+                                </div>
+                            </div>
+                            <div class="van-description">
+                                Ultimate luxury experience with premium amenities, perfect for executive travel and special occasions.
+                            </div>
+                            <div class="van-actions">
+                                <a href="book-van.php" class="btn-book">Book Now</a>
+                                <a href="#" class="btn-details">Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Van 3 -->
+                    <div class="van-card" data-category="cargo">
+                        <div class="van-image">
+                            <img src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cargo Van">
+                            <div class="van-badge">Reliable</div>
+                        </div>
+                        <div class="van-content">
+                            <div class="van-header">
+                                <div class="van-title">
+                                    <h3>Ford Transit</h3>
+                                    <div class="van-subtitle">Cargo Van</div>
+                                </div>
+                                <div class="van-price">
+                                    <div class="price-amount">$120</div>
+                                    <div class="price-period">per day</div>
+                                </div>
+                            </div>
+                            <div class="van-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <span>15 cu ft</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-weight-hanging"></i>
+                                    </div>
+                                    <span>3000 lbs</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
+                                    <span>Loading Ramp</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <span>Secure</span>
+                                </div>
+                            </div>
+                            <div class="van-description">
+                                Versatile cargo van ideal for moving, deliveries, and commercial transportation needs.
+                            </div>
+                            <div class="van-actions">
+                                <a href="book-van.php" class="btn-book">Book Now</a>
+                                <a href="#" class="btn-details">Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Van 4 -->
+                    <div class="van-card" data-category="passenger">
+                        <div class="van-image">
+                            <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Minibus">
+                            <div class="van-badge">Spacious</div>
+                        </div>
+                        <div class="van-content">
+                            <div class="van-header">
+                                <div class="van-title">
+                                    <h3>Ford E-350</h3>
+                                    <div class="van-subtitle">Minibus</div>
+                                </div>
+                                <div class="van-price">
+                                    <div class="price-amount">$180</div>
+                                    <div class="price-period">per day</div>
+                                </div>
+                            </div>
+                            <div class="van-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <span>15 Passengers</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-wheelchair"></i>
+                                    </div>
+                                    <span>Accessible</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-suitcase"></i>
+                                    </div>
+                                    <span>Luggage Space</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-temperature-high"></i>
+                                    </div>
+                                    <span>Climate Control</span>
+                                </div>
+                            </div>
+                            <div class="van-description">
+                                Large capacity minibus perfect for group tours, school trips, and airport shuttle services.
+                            </div>
+                            <div class="van-actions">
+                                <a href="book-van.php" class="btn-book">Book Now</a>
+                                <a href="#" class="btn-details">Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Van 5 -->
+                    <div class="van-card" data-category="luxury">
+                        <div class="van-image">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Van">
+                            <div class="van-badge">VIP</div>
+                        </div>
+                        <div class="van-content">
+                            <div class="van-header">
+                                <div class="van-title">
+                                    <h3>Lincoln Navigator</h3>
+                                    <div class="van-subtitle">Luxury SUV</div>
+                                </div>
+                                <div class="van-price">
+                                    <div class="price-amount">$250</div>
+                                    <div class="price-period">per day</div>
+                                </div>
+                            </div>
+                            <div class="van-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <span>8 Passengers</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span>Premium</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-music"></i>
+                                    </div>
+                                    <span>Sound System</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-sun"></i>
+                                    </div>
+                                    <span>Panoramic</span>
+                                </div>
+                            </div>
+                            <div class="van-description">
+                                Sophisticated luxury SUV with premium features and exceptional comfort for discerning travelers.
+                            </div>
+                            <div class="van-actions">
+                                <a href="book-van.php" class="btn-book">Book Now</a>
+                                <a href="#" class="btn-details">Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Van 6 -->
+                    <div class="van-card" data-category="cargo">
+                        <div class="van-image">
+                            <img src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cargo Van">
+                            <div class="van-badge">Efficient</div>
+                        </div>
+                        <div class="van-content">
+                            <div class="van-header">
+                                <div class="van-title">
+                                    <h3>Chevrolet Express</h3>
+                                    <div class="van-subtitle">Cargo Van</div>
+                                </div>
+                                <div class="van-price">
+                                    <div class="price-amount">$100</div>
+                                    <div class="price-period">per day</div>
+                                </div>
+                            </div>
+                            <div class="van-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <span>12 cu ft</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-gas-pump"></i>
+                                    </div>
+                                    <span>Fuel Efficient</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-cog"></i>
+                                    </div>
+                                    <span>Reliable</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <span>GPS Ready</span>
+                                </div>
+                            </div>
+                            <div class="van-description">
+                                Efficient and reliable cargo van perfect for small to medium-sized deliveries and moving needs.
+                            </div>
+                            <div class="van-actions">
+                                <a href="book-van.php" class="btn-book">Book Now</a>
+                                <a href="#" class="btn-details">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="section-header">
+                <h2>Why Choose Our Vans?</h2>
+                <p>We maintain the highest standards to ensure your safety, comfort, and satisfaction.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safety First</h3>
+                    <p>All our vans undergo regular safety inspections and maintenance to ensure your peace of mind.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>We only offer high-quality, well-maintained vehicles that meet our strict standards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our customer support team is available round the clock to assist you with any questions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Best Prices</h3>
+                    <p>Competitive pricing with no hidden fees. Get the best value for your transportation needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Professional Drivers</h3>
+                    <p>Our experienced and licensed drivers ensure a safe and comfortable journey.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Eco-Friendly</h3>
+                    <p>We maintain a fleet that meets modern environmental standards and efficiency requirements.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to Book Your Perfect Van?</h2>
+                <p>Choose from our premium fleet and experience the best in transportation services. Book now and enjoy a comfortable, reliable journey.</p>
+                <div class="cta-buttons">
+                    <a href="book-van.php" class="btn btn-primary">Book Now</a>
+                    <a href="contact.html" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>VanGo</h3>
+                        <p>Premium van booking service for all your transportation needs.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="vans.html">Our Vans</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="book-van.php">Book Now</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="#">Airport Transfer</a></li>
+                            <li><a href="#">City Tours</a></li>
+                            <li><a href="#">Corporate Travel</a></li>
+                            <li><a href="#">Wedding Transportation</a></li>
+                            <li><a href="#">Group Travel</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Info</h4>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@vango.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Main St, City, State 12345</p>
+                        <p><i class="fas fa-clock"></i> 24/7 Service Available</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 VanGo. All rights reserved. | <a href="auth.html">Privacy Policy</a> | <a href="auth.html">Terms of Service</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Category Filter Functionality
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove active class from all cards
+                document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked card
+                card.classList.add('active');
+                
+                const category = card.getAttribute('data-category');
+                
+                // Filter vans
+                document.querySelectorAll('.van-card').forEach(van => {
+                    if (category === 'all' || van.getAttribute('data-category') === category) {
+                        van.style.display = 'block';
+                    } else {
+                        van.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

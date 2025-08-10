@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Happy Customers - VanGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .customers-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        
+        .customers-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .customers-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 40px 0;
+        }
+        
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 2px solid #e9ecef;
+            color: #666;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .search-box {
+            max-width: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .customers-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.php" class="nav-logo">
+                <i class="fas fa-van-shuttle"></i>
+                <span>VanGo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.php" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vans.html" class="nav-link">Our Vans</a>
+                </li>
+                <li class="nav-item">
+                    <a href="book-van.php" class="nav-link">Book Now</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="customer-profiles.html" class="nav-link active">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="auth.html" class="nav-link">Login</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="customers-hero">
+        <h1>Our Happy Customers</h1>
+        <p>Discover why thousands of customers choose VanGo for their transportation needs. From business executives to families, we serve everyone with excellence.</p>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-container">
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All Customers</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="family">Family</button>
+                <button class="filter-btn" data-filter="events">Events</button>
+                <button class="filter-btn" data-filter="tourism">Tourism</button>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="customerSearch" placeholder="Search customers by name or location...">
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Profiles Section -->
+    <section class="customer-profiles">
+        <div class="container">
+            <div class="profiles-grid" id="profilesGrid">
+                <!-- All 20 customer profiles will be here -->
+                <div class="profile-card" data-category="business" data-search="sarah johnson business executive new york">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Sarah Johnson</h3>
+                    <p class="profile-title">Business Executive</p>
+                    <p class="profile-location">New York, NY</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 15+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"VanGo has transformed my business travel experience. Professional service every time!"</p>
+                </div>
+
+                <div class="profile-card" data-category="business" data-search="michael chen event planner los angeles">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Michael Chen</h3>
+                    <p class="profile-title">Event Planner</p>
+                    <p class="profile-location">Los Angeles, CA</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 25+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Perfect for corporate events. Luxury vans that impress our clients!"</p>
+                </div>
+
+                <div class="profile-card" data-category="family" data-search="emily rodriguez family traveler miami">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Emily Rodriguez</h3>
+                    <p class="profile-title">Family Traveler</p>
+                    <p class="profile-location">Miami, FL</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 8+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Safe and comfortable for family trips. Kids love the spacious vans!"</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="lisa wang wedding coordinator chicago">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Lisa Wang</h3>
+                    <p class="profile-title">Wedding Coordinator</p>
+                    <p class="profile-location">Chicago, IL</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 30+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Elegant vans for wedding transportation. Makes special days even more memorable."</p>
+                </div>
+
+                <div class="profile-card" data-category="tourism" data-search="david thompson tour guide san francisco">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>David Thompson</h3>
+                    <p class="profile-title">Tour Guide</p>
+                    <p class="profile-location">San Francisco, CA</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 40+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Reliable service for tour groups. Professional drivers who know the city well."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="robert martinez sports team manager dallas">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Robert Martinez</h3>
+                    <p class="profile-title">Sports Team Manager</p>
+                    <p class="profile-location">Dallas, TX</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 50+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Perfect for team transportation. Spacious vans accommodate all our equipment."</p>
+                </div>
+
+                <div class="profile-card" data-category="tourism" data-search="jennifer lee travel blogger seattle">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Jennifer Lee</h3>
+                    <p class="profile-title">Travel Blogger</p>
+                    <p class="profile-location">Seattle, WA</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 20+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Luxury travel experience that I love sharing with my followers!"</p>
+                </div>
+
+                <div class="profile-card" data-category="business" data-search="james wilson real estate agent phoenix">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>James Wilson</h3>
+                    <p class="profile-title">Real Estate Agent</p>
+                    <p class="profile-location">Phoenix, AZ</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 35+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Professional service for client tours. Always on time and presentable."</p>
+                </div>
+
+                <div class="profile-card" data-category="business" data-search="maria garcia restaurant owner houston">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Maria Garcia</h3>
+                    <p class="profile-title">Restaurant Owner</p>
+                    <p class="profile-location">Houston, TX</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 12+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Great for catering events. Clean vans that maintain food quality."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="thomas brown film producer atlanta">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Thomas Brown</h3>
+                    <p class="profile-title">Film Producer</p>
+                    <p class="profile-location">Atlanta, GA</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 45+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Essential for film production. Reliable transportation for cast and crew."</p>
+                </div>
+
+                <div class="profile-card" data-category="family" data-search="amanda taylor school principal denver">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Amanda Taylor</h3>
+                    <p class="profile-title">School Principal</p>
+                    <p class="profile-location">Denver, CO</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 18+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Safe transportation for school trips. Parents trust VanGo with their children."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="christopher davis music band manager nashville">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Christopher Davis</h3>
+                    <p class="profile-title">Music Band Manager</p>
+                    <p class="profile-location">Nashville, TN</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 60+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Perfect for band tours. Spacious vans for instruments and equipment."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="rachel green fashion designer las vegas">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Rachel Green</h3>
+                    <p class="profile-title">Fashion Designer</p>
+                    <p class="profile-location">Las Vegas, NV</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 22+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Elegant transportation for fashion shows. Makes a great impression!"</p>
+                </div>
+
+                <div class="profile-card" data-category="business" data-search="kevin anderson tech startup ceo austin">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Kevin Anderson</h3>
+                    <p class="profile-title">Tech Startup CEO</p>
+                    <p class="profile-location">Austin, TX</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 28+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Professional service for investor meetings. Always makes the right impression."</p>
+                </div>
+
+                <div class="profile-card" data-category="tourism" data-search="sophie turner travel agent orlando">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Sophie Turner</h3>
+                    <p class="profile-title">Travel Agent</p>
+                    <p class="profile-location">Orlando, FL</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 55+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Reliable partner for travel packages. Clients always satisfied with VanGo."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="daniel clark conference organizer boston">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Daniel Clark</h3>
+                    <p class="profile-title">Conference Organizer</p>
+                    <p class="profile-location">Boston, MA</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 32+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Essential for conference logistics. Handles large groups efficiently."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="nicole white wedding photographer portland">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Nicole White</h3>
+                    <p class="profile-title">Wedding Photographer</p>
+                    <p class="profile-location">Portland, OR</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 15+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Perfect for wedding photography teams. Clean and professional service."</p>
+                </div>
+
+                <div class="profile-card" data-category="events" data-search="ryan johnson sports coach kansas city">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Ryan Johnson</h3>
+                    <p class="profile-title">Sports Coach</p>
+                    <p class="profile-location">Kansas City, MO</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 25+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Great for team transportation to games and tournaments."</p>
+                </div>
+
+                <div class="profile-card" data-category="business" data-search="jessica moore corporate trainer minneapolis">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Jessica Moore</h3>
+                    <p class="profile-title">Corporate Trainer</p>
+                    <p class="profile-location">Minneapolis, MN</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 20+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Professional service for corporate training events. Always reliable."</p>
+                </div>
+
+                <div class="profile-card" data-category="business" data-search="mark williams construction manager detroit">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Mark Williams</h3>
+                    <p class="profile-title">Construction Manager</p>
+                    <p class="profile-location">Detroit, MI</p>
+                    <div class="profile-stats">
+                        <span><i class="fas fa-calendar"></i> 35+ Bookings</span>
+                        <span><i class="fas fa-star"></i> 5.0 Rating</span>
+                    </div>
+                    <p class="profile-quote">"Reliable transportation for construction crews. Handles equipment well."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-van-shuttle"></i> VanGo</h3>
+                <p>Premium van booking service for all your transportation needs. Professional, reliable, and comfortable.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="vans.html">Our Vans</a></li>
+                    <li><a href="book-van.php">Book Now</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="vans.html">Luxury Vans</a></li>
+                    <li><a href="vans.html">Corporate Transport</a></li>
+                    <li><a href="vans.html">Event Transportation</a></li>
+                    <li><a href="vans.html">Airport Transfers</a></li>
+                    <li><a href="vans.html">Group Tours</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-envelope"></i> info@vango.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Van Street, City, State 12345</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VanGo. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const profileCards = document.querySelectorAll('.profile-card');
+        const searchInput = document.getElementById('customerSearch');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-filter');
+                filterProfiles(filter);
+            });
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            filterProfiles('all', searchTerm);
+        });
+
+        function filterProfiles(category, searchTerm = '') {
+            profileCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const searchData = card.getAttribute('data-search').toLowerCase();
+                
+                let showCard = true;
+                
+                // Filter by category
+                if (category !== 'all' && cardCategory !== category) {
+                    showCard = false;
+                }
+                
+                // Filter by search term
+                if (searchTerm && !searchData.includes(searchTerm)) {
+                    showCard = false;
+                }
+                
+                // Show/hide card
+                if (showCard) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.5s ease-in';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add fade-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize with all profiles visible
+        filterProfiles('all');
+    </script>
+</body>
+</html> 
