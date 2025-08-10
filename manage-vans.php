@@ -137,7 +137,7 @@ function addVan($pdo) {
         }
         
         // Validate required fields
-        $required_fields = ['name', 'type', 'seats', 'daily_rate', 'status'];
+        $required_fields = ['name', 'type', 'model', 'registration_number', 'seats', 'daily_rate', 'status'];
         foreach ($required_fields as $field) {
             if (empty($input[$field])) {
                 http_response_code(400);
@@ -149,31 +149,38 @@ function addVan($pdo) {
         // Generate van ID
         $van_id = 'VAN' . strtoupper(substr(md5(uniqid()), 0, 6));
         
-        // Collect features as array and encode as JSON
+        // Handle features
         $features = [];
-        if (!empty($input['ac'])) $features[] = 'Air Conditioning';
-        if (!empty($input['wifi'])) $features[] = 'WiFi';
-        if (!empty($input['gps'])) $features[] = 'GPS Navigation';
+        if (isset($input['features']) && is_array($input['features'])) {
+            $features = $input['features'];
+        } elseif (isset($input['features']) && is_string($input['features'])) {
+            $features = array_map('trim', explode(',', $input['features']));
+        }
         $featuresJson = json_encode($features);
         
-        // Get conduct details
-        $conductDetails = $input['conduct_details'] ?? '';
+        // Calculate hourly rate
+        $hourlyRate = floatval($input['daily_rate']) / 8;
         
-        // Prepare SQL statement (store features as JSON)
-        $sql = "INSERT INTO vans (van_id, name, type, seats, daily_rate, description, status, features, conduct_details, created_at) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        // Prepare SQL statement
+        $sql = "INSERT INTO vans (van_id, name, type, model, registration_number, year, seats, capacity, daily_rate, hourly_rate, description, features, status, location, created_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             $van_id,
             $input['name'],
             $input['type'],
-            $input['seats'],
+            $input['model'],
+            $input['registration_number'],
+            $input['year'] ?? date('Y'),
+            intval($input['seats']),
+            $input['capacity'] ?? $input['seats'],
             $input['daily_rate'],
+            $hourlyRate,
             $input['description'] ?? '',
-            $input['status'],
             $featuresJson,
-            $conductDetails
+            $input['status'],
+            $input['location'] ?? 'Main Hub'
         ]);
         
         // Get the inserted van
@@ -220,11 +227,28 @@ function updateVan($pdo, $van_id) {
         $update_fields = [];
         $params = [];
         
-        $fields_to_update = ['type', 'seats', 'daily_rate', 'ac', 'wifi', 'gps', 'status'];
+        $fields_to_update = ['name', 'type', 'model', 'registration_number', 'year', 'seats', 'capacity', 'daily_rate', 'description', 'features', 'status', 'location'];
         foreach ($fields_to_update as $field) {
             if (isset($input[$field])) {
-                $update_fields[] = "$field = ?";
-                $params[] = $input[$field];
+                if ($field === 'features') {
+                    // Handle features array
+                    $features = [];
+                    if (is_array($input['features'])) {
+                        $features = $input['features'];
+                    } elseif (is_string($input['features'])) {
+                        $features = array_map('trim', explode(',', $input['features']));
+                    }
+                    $update_fields[] = "features = ?";
+                    $params[] = json_encode($features);
+                } elseif ($field === 'daily_rate') {
+                    $update_fields[] = "daily_rate = ?";
+                    $update_fields[] = "hourly_rate = ?";
+                    $params[] = floatval($input[$field]);
+                    $params[] = floatval($input[$field]) / 8;
+                } else {
+                    $update_fields[] = "$field = ?";
+                    $params[] = $input[$field];
+                }
             }
         }
         

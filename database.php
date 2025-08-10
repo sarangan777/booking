@@ -101,6 +101,7 @@ function createTables() {
             name VARCHAR(100) NOT NULL,
             type ENUM('Economy', 'Standard', 'Premium', 'Luxury') NOT NULL,
             model VARCHAR(100) NOT NULL,
+            registration_number VARCHAR(50) UNIQUE NOT NULL,
             year INT NOT NULL,
             seats INT NOT NULL DEFAULT 4,
             capacity INT NOT NULL,
@@ -114,6 +115,7 @@ function createTables() {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             INDEX idx_van_id (van_id),
+            INDEX idx_registration (registration_number),
             INDEX idx_type (type),
             INDEX idx_status (status),
             INDEX idx_seats (seats),
@@ -260,6 +262,7 @@ function insertSampleData() {
                 'name' => 'Economy Van',
                 'type' => 'Economy',
                 'model' => 'Toyota Hiace',
+                'registration_number' => 'VG-001-ECO',
                 'year' => 2023,
                 'seats' => 4,
                 'capacity' => 4,
@@ -276,6 +279,7 @@ function insertSampleData() {
                 'name' => 'Standard Van',
                 'type' => 'Standard',
                 'model' => 'Ford Transit',
+                'registration_number' => 'VG-002-STD',
                 'year' => 2023,
                 'seats' => 6,
                 'capacity' => 6,
@@ -292,6 +296,7 @@ function insertSampleData() {
                 'name' => 'Premium Van',
                 'type' => 'Premium',
                 'model' => 'Mercedes Sprinter',
+                'registration_number' => 'VG-003-PRM',
                 'year' => 2023,
                 'seats' => 8,
                 'capacity' => 8,
@@ -308,6 +313,7 @@ function insertSampleData() {
                 'name' => 'Luxury Van',
                 'type' => 'Luxury',
                 'model' => 'Mercedes V-Class',
+                'registration_number' => 'VG-004-LUX',
                 'year' => 2023,
                 'seats' => 6,
                 'capacity' => 6,
@@ -322,14 +328,14 @@ function insertSampleData() {
         ];
         
         $stmt = $pdo->prepare("
-            INSERT INTO vans (van_id, name, type, model, year, seats, capacity, daily_rate, hourly_rate, 
+            INSERT INTO vans (van_id, name, type, model, registration_number, year, seats, capacity, daily_rate, hourly_rate, 
                              description, features, images, status, location) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
         foreach ($vans as $van) {
             $stmt->execute([
-                $van['van_id'], $van['name'], $van['type'], $van['model'], $van['year'],
+                $van['van_id'], $van['name'], $van['type'], $van['model'], $van['registration_number'], $van['year'],
                 $van['seats'], $van['capacity'], $van['daily_rate'], $van['hourly_rate'], $van['description'],
                 $van['features'], $van['images'], $van['status'], $van['location']
             ]);

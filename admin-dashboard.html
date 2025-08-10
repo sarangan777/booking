@@ -351,22 +351,44 @@
                             <label for="vanType">Van Type *</label>
                             <select id="vanType" name="vanType" required>
                                 <option value="">Select Type</option>
-                                <option value="passenger">Passenger Van</option>
-                                <option value="cargo">Cargo Van</option>
-                                <option value="luxury">Luxury Van</option>
-                                <option value="minibus">Minibus</option>
+                                <option value="Economy">Economy</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Premium">Premium</option>
+                                <option value="Luxury">Luxury</option>
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="vanCapacity">Capacity (seats/cargo space)</label>
-                            <input type="text" id="vanCapacity" name="vanCapacity" placeholder="e.g., 8 seats or 2000 lbs">
+                            <label for="vanModel">Van Model *</label>
+                            <input type="text" id="vanModel" name="vanModel" placeholder="e.g., Toyota Hiace" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registrationNumber">Registration Number *</label>
+                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ABC-1234" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vanYear">Year</label>
+                            <input type="number" id="vanYear" name="vanYear" min="2000" max="2030" placeholder="2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="vanSeats">Number of Seats *</label>
+                            <input type="number" id="vanSeats" name="vanSeats" min="1" max="20" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vanCapacity">Capacity</label>
+                            <input type="number" id="vanCapacity" name="vanCapacity" min="1" max="20" placeholder="Same as seats">
                         </div>
                         <div class="form-group">
                             <label for="vanDailyRate">Daily Rate ($) *</label>
-                            <input type="number" id="vanDailyRate" name="vanDailyRate" required>
+                            <input type="number" id="vanDailyRate" name="vanDailyRate" step="0.01" min="0" required>
                         </div>
                     </div>
                     
@@ -380,19 +402,26 @@
                         <input type="text" id="vanFeatures" name="vanFeatures" placeholder="e.g., Air Conditioning, WiFi, GPS">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="vanStatus">Status</label>
-                        <select id="vanStatus" name="vanStatus">
-                            <option value="active">Active</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vanLocation">Location</label>
+                            <input type="text" id="vanLocation" name="vanLocation" placeholder="e.g., Main Hub">
+                        </div>
+                        <div class="form-group">
+                            <label for="vanStatus">Status</label>
+                            <select id="vanStatus" name="vanStatus">
+                                <option value="available">Available</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="booked">Booked</option>
+                                <option value="out_of_service">Out of Service</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="cancel-btn" onclick="closeAddVanModal()">Cancel</button>
-                <button class="save-btn" onclick="saveVan()">Save Van</button>
+                <button type="submit" form="addVanForm" class="save-btn">Save Van</button>
             </div>
         </div>
     </div>
@@ -417,22 +446,44 @@
                         <div class="form-group">
                             <label for="editVanType">Van Type *</label>
                             <select id="editVanType" name="vanType" required>
-                                <option value="passenger">Passenger Van</option>
-                                <option value="cargo">Cargo Van</option>
-                                <option value="luxury">Luxury Van</option>
-                                <option value="minibus">Minibus</option>
+                                <option value="Economy">Economy</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Premium">Premium</option>
+                                <option value="Luxury">Luxury</option>
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
+                            <label for="editVanModel">Van Model *</label>
+                            <input type="text" id="editVanModel" name="vanModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRegistrationNumber">Registration Number *</label>
+                            <input type="text" id="editRegistrationNumber" name="registrationNumber" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editVanYear">Year</label>
+                            <input type="number" id="editVanYear" name="vanYear" min="2000" max="2030">
+                        </div>
+                        <div class="form-group">
+                            <label for="editVanSeats">Number of Seats *</label>
+                            <input type="number" id="editVanSeats" name="vanSeats" min="1" max="20" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="editVanCapacity">Capacity</label>
-                            <input type="text" id="editVanCapacity" name="vanCapacity">
+                            <input type="number" id="editVanCapacity" name="vanCapacity" min="1" max="20">
                         </div>
                         <div class="form-group">
                             <label for="editVanDailyRate">Daily Rate ($) *</label>
-                            <input type="number" id="editVanDailyRate" name="vanDailyRate" required>
+                            <input type="number" id="editVanDailyRate" name="vanDailyRate" step="0.01" min="0" required>
                         </div>
                     </div>
                     
@@ -446,19 +497,26 @@
                         <input type="text" id="editVanFeatures" name="vanFeatures">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="editVanStatus">Status</label>
-                        <select id="editVanStatus" name="vanStatus">
-                            <option value="active">Active</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editVanLocation">Location</label>
+                            <input type="text" id="editVanLocation" name="vanLocation">
+                        </div>
+                        <div class="form-group">
+                            <label for="editVanStatus">Status</label>
+                            <select id="editVanStatus" name="vanStatus">
+                                <option value="available">Available</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="booked">Booked</option>
+                                <option value="out_of_service">Out of Service</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="cancel-btn" onclick="closeEditVanModal()">Cancel</button>
-                <button class="save-btn" onclick="updateVan()">Update Van</button>
+                <button type="submit" form="editVanForm" class="save-btn">Update Van</button>
             </div>
         </div>
     </div>
