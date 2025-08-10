@@ -356,7 +356,18 @@ function openAddVanModal() {
     if (modal) {
         modal.style.display = 'block';
         // Reset form
-        document.getElementById('addVanForm').reset();
+        const form = document.getElementById('addVanForm');
+        if (form) {
+            form.reset();
+        }
+        
+        // Ensure save button is visible and enabled
+        const saveBtn = document.querySelector('#addVanModal .save-btn');
+        if (saveBtn) {
+            saveBtn.style.display = 'flex';
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Van';
+        }
     }
 }
 
@@ -407,6 +418,12 @@ function saveVan() {
     
     // Show loading state
     const saveBtn = document.querySelector('#addVanModal .save-btn');
+    if (!saveBtn) {
+        console.error('Save button not found in add van modal');
+        showNotification('Error: Save button not found', 'error');
+        return;
+    }
+    
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
     saveBtn.disabled = true;

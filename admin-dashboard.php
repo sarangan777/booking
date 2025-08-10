@@ -418,17 +418,21 @@ if (!$pdo) {
             height: 100%;
             background-color: rgba(0,0,0,0.5);
             backdrop-filter: blur(5px);
+            overflow-y: auto;
         }
         
         .modal-content {
             background-color: white;
-            margin: 3% auto;
+            margin: 2% auto;
             padding: 0;
             border-radius: 15px;
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease;
+            position: relative;
+            max-height: 95vh;
+            overflow-y: auto;
         }
         
         @keyframes modalSlideIn {
@@ -486,7 +490,10 @@ if (!$pdo) {
             border-top: 1px solid #e9ecef;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
             gap: 15px;
+            background: #f8f9fa;
+            border-radius: 0 0 15px 15px;
         }
         
         .van-form {
@@ -535,26 +542,37 @@ if (!$pdo) {
             background: #6c757d;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
         }
         
         .cancel-btn:hover {
             background: #5a6268;
+            transform: translateY(-1px);
         }
         
         .save-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            min-width: 120px;
+            justify-content: center;
         }
         
         .save-btn:hover {
@@ -566,6 +584,7 @@ if (!$pdo) {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            background: #6c757d;
         }
         
         .delete-btn {
@@ -990,8 +1009,12 @@ if (!$pdo) {
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="cancel-btn" onclick="closeAddVanModal()">Cancel</button>
-                <button type="submit" form="addVanForm" class="save-btn">Save Van</button>
+                <button type="button" class="cancel-btn" onclick="closeAddVanModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="submit" form="addVanForm" class="save-btn" id="addVanSaveBtn">
+                    <i class="fas fa-save"></i> Save Van
+                </button>
             </div>
         </div>
     </div>
